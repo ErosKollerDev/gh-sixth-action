@@ -5,7 +5,7 @@ on:
   pull_request:
     types: [opened]
     branches:
-      - main
+      - main-that-should-not-run
       - dev-* #/dev-1, /dev-2
       - releases/** #releases/new or releases/new/one
       - feat/** #feat/button or feat/button/clear
@@ -19,7 +19,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - main-that-should-not-run
       - dev-* #/dev-1, /dev-2
       - releases/** #releases/new or releases/new/one
       - feat/** #feat/button or feat/button/clear

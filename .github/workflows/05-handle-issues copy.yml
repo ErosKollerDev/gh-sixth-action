@@ -1,0 +1,23 @@
+name: 05-handle-issues
+on:
+  issues:
+    types: [reopened] #opened, edited, closed,
+jobs:
+  handle-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output Events Details
+        run: |
+          echo "Event Type: ${{ github.event_name }}"
+          echo "Issue Number: ${{ github.event.issue.number }}"
+          echo "Issue Title: ${{ github.event.issue.title }}"
+          echo "Issue Body: ${{ github.event.issue.body }}"
+          echo "Issue State: ${{ github.event.issue.state }}"
+          echo "Issue Assignees: ${{ github.event.issue.assignees }}"
+          echo "Issue Author: ${{ github.event.issue.user.login }}"
+          echo "Issue Labels: ${{ github.event.issue.labels }}"
+          echo "Issue Comments: ${{ github.event.issue.comments }}"
+          echo "Issue Created At: ${{ github.event.issue.created_at }}"
+          echo "Issue Updated At: ${{ github.event.issue.updated_at }}"
+          echo "Issue Closed At: ${{ github.event.issue.closed_at }}"
+          echo "Event Payload: ${{ toJSON(github.event) }}"

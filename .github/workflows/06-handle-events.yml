@@ -1,0 +1,54 @@
+name: Events Demo 1
+on:
+  issues:
+    types: [reopened] #opened, edited, closed,
+  pull_request:
+    types: [opened]
+    branches:
+      - main
+      - dev-* #/dev-1, /dev-2
+      - releases/** #releases/new or releases/new/one
+      - feat/** #feat/button or feat/button/clear
+    paths-ignore:
+      - "docs/**"
+      - "README.md"
+      - "LICENSE"
+      - "CONTRIBUTING.md"
+      - "CODE_OF_CONDUCT.md"
+      - ".github/**"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - dev-* #/dev-1, /dev-2
+      - releases/** #releases/new or releases/new/one
+      - feat/** #feat/button or feat/button/clear
+    paths-ignore:
+      - "docs/**"
+      - "README.md"
+      - "LICENSE"
+      - "CONTRIBUTING.md"
+      - "CODE_OF_CONDUCT.md"
+      - ".github/**"
+  # push:
+  #   branches:
+  #     - "main"
+  #     - "releases/**"
+  # schedule:
+  #   - cron: "0 25 11 11 1" # <=== Change this valu
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output event data
+        run: echo "${{ toJSON(github.event) }}"
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+      - name: Test code
+        run: npm run test
+      - name: Build code
+        run: npm run build
+      - name: Deploy project
+        run: echo "Deploying..."

@@ -2,7 +2,7 @@ name: Deploy website
 on:
   push:
     branches:
-      - main
+      - devzinho-test-never-runs
 jobs:
   test:
     runs-on: ubuntu-latest

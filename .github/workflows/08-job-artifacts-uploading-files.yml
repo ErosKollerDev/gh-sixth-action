@@ -43,5 +43,17 @@ jobs:
     needs: build
     runs-on: ubuntu-22.04
     steps:
+      - name: Get build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-files
+          # path: dist-files
+      - name: List files
+        run: ls -la
+      - name: Run file writing
+        run: |
+          echo "Event Type: ${{ github.event_name }}" > file.txt
+      - name: List files again
+        run: ls -la
       - name: Deploy
         run: echo "Deploying..."

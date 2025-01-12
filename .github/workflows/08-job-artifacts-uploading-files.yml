@@ -64,3 +64,5 @@ jobs:
         run: echo "${{needs.build.outputs.script-file}}"
       - name: Deploy
         run: echo "Deploying..."
+      - name: Print content of a file
+        run: cat file.txt

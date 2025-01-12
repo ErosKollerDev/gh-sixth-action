@@ -25,6 +25,8 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-22.04
+    outputs:
+      script-file: ${{ steps.publish.outputs.script-file }}
     steps:
       - name: Get code
         uses: actions/checkout@v4
@@ -32,6 +34,9 @@ jobs:
         run: npm ci
       - name: Build website
         run: npm run build
+      - name: Publish JS files Name
+        id: publish
+        run: find dist/assets/*.js -type f -execdir echo 'script-file={}=' >> $GITHUB_OUTPUT ';'
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -43,18 +48,19 @@ jobs:
     needs: build
     runs-on: ubuntu-22.04
     steps:
-      - name: Get build artifacts
-        run: echo "Getting artifacts..."
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: dist-files
-      #     # path: dist-files
-      # - name: List files
-      #   run: ls -la
-      # - name: Run file writing
-      #   run: |
-      #     echo "Event Type: ${{ github.event_name }}" > file.txt
-      # - name: List files again
-      #   run: ls -la
-      # - name: Deploy
-      #   run: echo "Deploying..."
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-files
+          path: dist-files
+      - name: List files
+        run: ls -la
+      - name: Run file writing
+        run: |
+          echo "Event Type: ${{ github.event_name }}" > file.txt
+      - name: List files again
+        run: ls -la
+      - name: Output file name
+        run: echo "${{needs.build.outputs.script-file}}"
+      - name: Deploy
+        run: echo "Deploying..."
